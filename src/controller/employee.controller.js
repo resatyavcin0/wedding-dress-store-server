@@ -4,7 +4,7 @@ import Employee from "../models/Employee.model.js";
 
 // fake promise
 const fakeSendOtpPromise = () => {
-    return new Promise(resolve => setTimeout(resolve, 500));
+    return new Promise(resolve => setTimeout(resolve(true), 500));
 }
 
 //create user 

@@ -3,7 +3,7 @@
 import "dotenv/config.js";
 import db from "./helpers/db.js";
 
-import employeeRouter from "./routers/employee.router.js"
+import employeeRouter from "./routers/employee.routes.js"
 
 
 

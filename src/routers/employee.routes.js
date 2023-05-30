@@ -23,6 +23,7 @@ router.get("/list-normal-employee", async (req, res) => {
     return res.status(500).send({ errors });
   }
 });
+
 router.post("/create-super-user", async (req, res) => {
   const {
     role = "SUPER",
@@ -57,7 +58,8 @@ router.post("/create-super-user", async (req, res) => {
     return res.status(500).send({ errors });
   }
 });
-router.post("/create-user", employeeController.createUser);
+
+router.post("/create-user",  employeeController.createUser);
 
 router.get("/bring/:id", async (req, res) => {
   const id = req.params.id;

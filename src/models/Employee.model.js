@@ -1,8 +1,5 @@
-// const mongoose = require("mongoose");
-// const bcrypt = require("bcryptjs");
-
-import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const employeeSchema = new mongoose.Schema(
   {
@@ -69,6 +66,6 @@ employeeSchema.pre("save", async function (next) {
   return next();
 });
 
-const EmployeeModel = mongoose.model("Employee", employeeSchema)
+const EmployeeModel = mongoose.model("Employee", employeeSchema);
 
 export default EmployeeModel;

@@ -8,6 +8,7 @@ import bodyParser from "body-parser";
 import employeeRouter from "./routers/employee.routes.js";
 import adminRouter from "./routers/admin.routes.js";
 import costumerRouter from "./routers/costumer.routes.js";
+import productRouter from "./routers/product.route.js";
 
 const app = express();
 
@@ -19,15 +20,10 @@ app.get("/health", (req, res, next) => {
   return res.send("Servis is very health.");
 });
 
-// const paymentRouter = require("./src/routers/payment.router");
-// const appointmentRouter = require("./src/routers/appointment.router");
-
 app.use("/employee", employeeRouter);
 app.use("/admin", adminRouter);
 app.use("/costumer", costumerRouter);
-// app.use("/product", productRouter);
-// app.use("/payment", paymentRouter);
-// app.use("/appointment", appointmentRouter);
+app.use("/product", productRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`The Service listening on ${process.env.PORT} port`);

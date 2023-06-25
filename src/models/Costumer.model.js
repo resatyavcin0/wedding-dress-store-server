@@ -34,6 +34,6 @@ const costumerSchema = new Schema(
   { timestamps: true }
 );
 
-const CostumerModel = mongoose.model("costumer", costumerSchema);
+const CostumerModel = mongoose.model("Costumer", costumerSchema);
 
 export default CostumerModel;

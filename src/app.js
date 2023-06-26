@@ -9,6 +9,7 @@ import employeeRouter from "./routers/employee.routes.js";
 import adminRouter from "./routers/admin.routes.js";
 import costumerRouter from "./routers/costumer.routes.js";
 import productRouter from "./routers/product.routes.js";
+import appointmentController from "./routers/appointment.routes.js";
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use("/employee", employeeRouter);
 app.use("/admin", adminRouter);
 app.use("/costumer", costumerRouter);
 app.use("/product", productRouter);
+app.use("/appointment", appointmentController);
 
 app.listen(process.env.PORT, () => {
   console.log(`The Service listening on ${process.env.PORT} port`);

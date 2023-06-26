@@ -14,6 +14,9 @@ const productSchema = new Schema(
       required: true,
       default: true,
     },
+    reusableDate: {
+      type: Date,
+    },
     productName: {
       type: String,
       required: true,
@@ -23,20 +26,22 @@ const productSchema = new Schema(
       enum: ["KINALIK", "GELINLIK", "NISANLIK"],
       required: true,
     },
-    history: {
-      type: [
-        {
-          sentOrRent: {
-            type: String,
-            enum: ["KIRALIK", "SATILIK"],
-          },
-          date: {
-            type: Date,
-            required: true,
-          },
+    history: [
+      {
+        type: {
+          type: String,
+          enum: ["KIRALIK", "SATILIK"],
         },
-      ],
-    },
+        date: {
+          type: Date,
+          required: true,
+        },
+        appointment: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "appointment",
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

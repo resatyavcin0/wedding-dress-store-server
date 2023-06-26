@@ -75,6 +75,36 @@ let costumerController = {
       next(err);
     }
   },
+  deleteCostumer: async (req, res, next) => {
+    try {
+      const costumerId = req.params.costumerId;
+      const isExist = await costumerService.isExistCostumerById({
+        costumerId,
+      });
+
+      if (!isExist) {
+        return res.status(500).send({
+          error: "Maalesef, bu kullanıcı kayıtlı değildir.",
+        });
+      }
+
+      if (!isExist.appointments.length === 0) {
+        return res.status(200).send({
+          message:
+            "Müşteri silinemez. Çünkü bağlı olduğu randevular vardır. İlk Önce onları silmeniz gerekmektedir.",
+          data: costumer,
+        });
+      }
+
+      const costumer = await Costumer.findByIdAndDelete(costumerId);
+      return res.status(200).send({
+        message: "Müşteri bilgileri başarı ile silindi.",
+        data: costumer,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 export default costumerController;

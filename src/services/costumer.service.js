@@ -24,7 +24,7 @@ const isExistCostumerById = async ({ costumerId }) => {
     return false;
   }
 
-  return true;
+  return isExist;
 };
 
 const getCostumerList = async () => {

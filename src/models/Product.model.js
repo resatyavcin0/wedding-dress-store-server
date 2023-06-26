@@ -1,19 +1,21 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
 const productSchema = new Schema(
   {
-    productCode: {
-      type: String,
+    isSent: {
+      type: Boolean,
       required: true,
+      default: false,
+    },
+    isReusable: {
+      type: Boolean,
+      required: true,
+      default: true,
     },
     productName: {
       type: String,
-      required: true,
-    },
-    productCount: {
-      type: Number,
       required: true,
     },
     productCategory: {
@@ -21,29 +23,20 @@ const productSchema = new Schema(
       enum: ["KINALIK", "GELINLIK", "NISANLIK"],
       required: true,
     },
-    leasedDates: [
-      {
-        appointment: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "appointment",
+    history: {
+      type: [
+        {
+          sentOrRent: {
+            type: String,
+            enum: ["KIRALIK", "SATILIK"],
+          },
+          date: {
+            type: Date,
+            required: true,
+          },
         },
-        date: Date,
-        isArrival: {
-          type: Boolean,
-          required: true,
-          default: false,
-        },
-      },
-    ],
-    soldDates: [
-      {
-        appointment: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "appointment",
-        },
-        date: Date,
-      },
-    ],
+      ],
+    },
   },
   { timestamps: true }
 );

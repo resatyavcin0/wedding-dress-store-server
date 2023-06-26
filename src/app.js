@@ -8,7 +8,7 @@ import bodyParser from "body-parser";
 import employeeRouter from "./routers/employee.routes.js";
 import adminRouter from "./routers/admin.routes.js";
 import costumerRouter from "./routers/costumer.routes.js";
-import productRouter from "./routers/product.route.js";
+import productRouter from "./routers/product.routes.js";
 
 const app = express();
 

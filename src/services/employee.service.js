@@ -9,14 +9,14 @@ const isExistUser = async ({ phoneNumber, userId }) => {
     return false;
   }
 
-  return true;
+  return isExist;
 };
 
-const getUsersByProperties = async ({ isVerifyAccount, isActiveAccount }) => {
+const getUsersByProperties = async ({ isVerifyAccount, isAccountActive }) => {
   const employees = await EmployeeModel.find({
     role: "USER",
-    isVerifyAccount: isVerifyAccount ? true : false,
-    isAccountActive: isActiveAccount ? true : false,
+    isVerifyAccount: isVerifyAccount ?? false,
+    isAccountActive: isAccountActive ?? false,
   });
 
   return employees;

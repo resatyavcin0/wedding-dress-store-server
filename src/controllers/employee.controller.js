@@ -42,9 +42,9 @@ let employeeController = {
   },
   getUserListWithUserRole: async (req, res, next) => {
     try {
-      const { isVerifyAccount, isActiveAccount } = req.query;
+      const { isVerifyAccount, isAccountActive } = req.query;
       const userList = await EmployeeService.getUsersByProperties({
-        isActiveAccount,
+        isAccountActive,
         isVerifyAccount,
       });
 
@@ -87,6 +87,14 @@ let employeeController = {
         });
       }
 
+      if (!isExist.appointments.length === 0) {
+        return res.status(200).send({
+          message:
+            "Çalışan silinemez. Çünkü bağlı olduğu randevular vardır. İlk önce onları silmeniz gerekmektedir.",
+          data: costumer,
+        });
+      }
+
       const deletedUser = await EmployeeService.deleteUserById({ userId });
 
       if (!deletedUser) {
@@ -98,6 +106,37 @@ let employeeController = {
       return res.status(200).send({
         message: "Çalışan bilgileri başarı ile silindi.",
         deletedUser,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+  updateUserById: async (req, res, next) => {
+    const { firstName, lastName, phoneNumber } = req.body;
+    const userId = req.params.userId;
+    try {
+      const isExist = await EmployeeService.isExistUser({ userId });
+
+      if (!isExist) {
+        return res.status(500).send({
+          error: "Maalesef, bu kullanıcı kayıtlı değildir.",
+        });
+      }
+
+      const updatedUser = await Employee.findByIdAndUpdate(
+        { _id: userId },
+        { firstName, lastName, phoneNumber }
+      );
+
+      if (!updatedUser) {
+        return res.status(500).send({
+          message: "Çalışan bulunamamaktadır.",
+        });
+      }
+
+      return res.status(200).send({
+        message: "Çalışan bilgileri başarı ile güncellendi.",
+        updatedUser,
       });
     } catch (err) {
       next(err);

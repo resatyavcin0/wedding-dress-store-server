@@ -33,10 +33,22 @@ const receivingTheProduct = async (product) => {
   }
 };
 const rentProductCancel = async (product, appointmentId) => {
-  await ProductModel.findByIdAndUpdate(new ObjectId(product), {
-    isReusable: true,
-    $pull: { history: { appointment: new ObjectId(appointmentId) } },
-  });
+  await ProductModel.findByIdAndUpdate(
+    new ObjectId(product),
+    {
+      isReusable: true,
+      $set: {
+        "history.$[y].isActive": false,
+      },
+    },
+    {
+      arrayFilters: [
+        {
+          "y.appointment": new ObjectId(appointmentId),
+        },
+      ],
+    }
+  );
 };
 
 const sellTheProduct = async ({ product, appointmentId, letRealEventDate }) => {
@@ -59,11 +71,23 @@ const sellTheProduct = async ({ product, appointmentId, letRealEventDate }) => {
 };
 const sellProductCancel = async (product, appointmentId) => {
   try {
-    await ProductModel.findByIdAndUpdate(new ObjectId(product), {
-      isSent: false,
-      isReusable: true,
-      $pull: { history: { appointment: new ObjectId(appointmentId) } },
-    });
+    await ProductModel.findByIdAndUpdate(
+      new ObjectId(product),
+      {
+        isSent: false,
+        isReusable: true,
+        $set: {
+          "history.$[y].isActive": false,
+        },
+      },
+      {
+        arrayFilters: [
+          {
+            "y.appointment": new ObjectId(appointmentId),
+          },
+        ],
+      }
+    );
   } catch (error) {
     console.log(error);
   }

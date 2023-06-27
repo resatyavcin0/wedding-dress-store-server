@@ -40,6 +40,11 @@ const productSchema = new Schema(
           type: mongoose.Schema.Types.ObjectId,
           ref: "appointment",
         },
+        isActive: {
+          type: Boolean,
+          required: true,
+          default: true,
+        },
       },
     ],
   },

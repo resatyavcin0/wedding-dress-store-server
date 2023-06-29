@@ -27,15 +27,9 @@ let adminController = {
         password,
       });
 
-      const isSend = await MessageService.fakeSendOtpPromise();
-
-      let messageAboutTheReturnOfTheMessagePromise = isSend
-        ? "Başarı ile mesaj kullanıcıya iletildi."
-        : "Kullanıcıya mesaj gönderilemedi. Lütfen tekrar gönder tuşuna basınız.";
-
       return res.status(201).json({
         status: true,
-        message: `Kullanıcı başarı ile oluşturuldu ve ${messageAboutTheReturnOfTheMessagePromise}`,
+        message: `Kullanıcı başarı ile oluşturuldu.`,
       });
     } catch (err) {
       next(err);

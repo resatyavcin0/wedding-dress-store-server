@@ -6,9 +6,10 @@ const rentTheProduct = async ({
   reusableDate,
   appointmentId,
   letRealEventDate,
+  session,
 }) => {
   try {
-    await ProductModel.findByIdAndUpdate(new ObjectId(product), {
+    await ProductModel.findByIdAndUpdate(product, {
       isReusable: false,
       reusableDate,
       $push: {
@@ -18,14 +19,14 @@ const rentTheProduct = async ({
           appointment: appointmentId,
         },
       },
-    });
+    }).session(session);
   } catch (error) {
     console.log(error);
   }
 };
 const receivingTheProduct = async (product) => {
   try {
-    await ProductModel.findByIdAndUpdate(new ObjectId(product), {
+    await ProductModel.findByIdAndUpdate(product, {
       isReusable: true,
     });
   } catch (error) {
@@ -34,7 +35,7 @@ const receivingTheProduct = async (product) => {
 };
 const rentProductCancel = async (product, appointmentId) => {
   await ProductModel.findByIdAndUpdate(
-    new ObjectId(product),
+    product,
     {
       isReusable: true,
       $set: {
@@ -51,9 +52,14 @@ const rentProductCancel = async (product, appointmentId) => {
   );
 };
 
-const sellTheProduct = async ({ product, appointmentId, letRealEventDate }) => {
+const sellTheProduct = async ({
+  product,
+  appointmentId,
+  letRealEventDate,
+  session,
+}) => {
   try {
-    await ProductModel.findByIdAndUpdate(new ObjectId(product), {
+    await ProductModel.findByIdAndUpdate(product, {
       isSent: true,
       isReusable: false,
 
@@ -64,7 +70,7 @@ const sellTheProduct = async ({ product, appointmentId, letRealEventDate }) => {
           appointment: appointmentId,
         },
       },
-    });
+    }).session(session);
   } catch (error) {
     console.log(error);
   }
@@ -72,7 +78,7 @@ const sellTheProduct = async ({ product, appointmentId, letRealEventDate }) => {
 const sellProductCancel = async (product, appointmentId) => {
   try {
     await ProductModel.findByIdAndUpdate(
-      new ObjectId(product),
+      product,
       {
         isSent: false,
         isReusable: true,

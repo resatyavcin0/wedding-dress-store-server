@@ -34,6 +34,13 @@ const employeeSchema = new mongoose.Schema(
       required: true,
       default: false,
     },
+    sid: {
+      type: String,
+    },
+    change: {
+      type: Number,
+      default: 3,
+    },
     isAccountActive: {
       type: Boolean,
       default: function () {

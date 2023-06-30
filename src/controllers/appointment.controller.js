@@ -26,7 +26,6 @@ let appointmentController = {
       extraNotes,
       product,
       costumer,
-      employee,
     } = req.body;
     let session;
 
@@ -68,7 +67,6 @@ let appointmentController = {
             extraNotes: extraNotes,
             product: product,
             costumer: costumer,
-            employee: employee,
           },
         ],
         { session: session }
@@ -90,12 +88,6 @@ let appointmentController = {
           session,
         });
       }
-
-      await EmployeeModel.findByIdAndUpdate(employee, {
-        $push: {
-          appointments: new mongoose.Types.ObjectId(newAppointment._id),
-        },
-      }).session(session);
 
       await CostumerModel.findByIdAndUpdate(costumer, {
         $push: {
@@ -138,13 +130,6 @@ let appointmentController = {
       } else {
         await productService.sellProductCancel(isExist.product, appointmentId);
       }
-
-      await EmployeeModel.findByIdAndUpdate(
-        new mongoose.Types.ObjectId(isExist.employee),
-        {
-          $pull: { appointments: appointmentId },
-        }
-      );
 
       await CostumerModel.findByIdAndUpdate(
         new mongoose.Types.ObjectId(isExist.costumer),

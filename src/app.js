@@ -3,6 +3,7 @@ import db from "./helpers/db.js";
 
 import express from "express";
 import bodyParser from "body-parser";
+import cors from "cors";
 
 //routers
 import employeeRouter from "./routers/employee.routes.js";
@@ -18,6 +19,7 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 
 //health
 app.get("/health", (req, res, next) => {
@@ -32,7 +34,7 @@ app.use("/costumer", costumerRouter);
 app.use("/product", productRouter);
 app.use("/appointment", appointmentRouter);
 app.use("/payment", paymentRouter);
-app.use("/statistic", statisticRouter);
+// app.use("/statistic", statisticRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`The Service listening on ${process.env.PORT} port`);

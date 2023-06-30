@@ -1,5 +1,6 @@
 import EmployeeModel from "../models/Employee.model";
 import messageService from "../services/message.service";
+import bcrypt from "bcrypt";
 
 let authController = {
   sendOTP: async (req, res, next) => {
@@ -129,10 +130,6 @@ let authController = {
           message: "Doğrulama kodu hatalıdır. Lütfen tekrar deneyiniz.",
         });
       }
-
-      return res.status(200).json({
-        status: "loginOK",
-      });
     } catch (err) {
       next(err);
     }

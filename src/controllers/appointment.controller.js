@@ -8,6 +8,7 @@ import productService from "../services/product.service.js";
 import EmployeeModel from "../models/Employee.model.js";
 import mongoose from "mongoose";
 import CostumerModel from "../models/Costumer.model.js";
+import AppointmentModel from "../models/Appointment.model.js";
 
 let appointmentController = {
   createAppointment: async (req, res, next) => {
@@ -15,6 +16,7 @@ let appointmentController = {
       isItUsed,
       isItForRent,
       isPackage,
+      totalAmount,
       istanbulWedding,
       hasItBeenDelivered,
       packageDepartureDate,
@@ -55,10 +57,13 @@ let appointmentController = {
       const newAppointment = await Appointment.create(
         [
           {
+            totalAmount,
             isItUsed: isItUsed,
             isItForRent: isItForRent,
             isPackage: isPackage,
             hasItBeenDelivered: hasItBeenDelivered,
+            istanbulWedding,
+            secondEventDate,
             packageDepartureDate: packageDepartureDate,
             packageArrivalDate: packageArrivalDate,
             eventDate: eventDate,
@@ -144,6 +149,18 @@ let appointmentController = {
       });
     } catch (err) {
       next(err);
+    }
+  },
+  bringAppointmentList: async (req, res, next) => {
+    try {
+      const appoList = await AppointmentModel.find({});
+
+      return res.status(200).send({
+        message: "Randevu bilgileri başarı ile getirildi.",
+        data: appoList,
+      });
+    } catch (error) {
+      next(error);
     }
   },
 };

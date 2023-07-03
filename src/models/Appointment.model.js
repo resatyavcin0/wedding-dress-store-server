@@ -7,14 +7,26 @@ const appointmentSchema = new Schema(
     isItUsed: {
       type: Boolean,
       required: true,
+      default: false,
+    },
+    totalAmount: {
+      type: Number,
+      required: true,
     },
     isItForRent: {
       type: Boolean,
       required: true,
+      default: false,
     },
     isPackage: {
       type: Boolean,
       required: true,
+      default: false,
+    },
+    istanbulWedding: {
+      type: Boolean,
+      required: true,
+      default: false,
     },
     packageDepartureDate: {
       type: Date,
@@ -27,6 +39,9 @@ const appointmentSchema = new Schema(
     eventDate: {
       type: Date,
       required: true,
+    },
+    secondEventDate: {
+      type: Date,
     },
     firstRehearsalDate: {
       type: Date,
@@ -49,6 +64,7 @@ const appointmentSchema = new Schema(
     employee: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "employee",
+      default: null,
     },
   },
   { timestamps: true }

@@ -35,9 +35,13 @@ let productController = {
             isSent: false,
           },
         },
+
         {
           $group: {
-            _id: "$productName",
+            _id: "$_id",
+            productName: {
+              $push: "$productName",
+            },
             count: { $sum: 1 },
           },
         },

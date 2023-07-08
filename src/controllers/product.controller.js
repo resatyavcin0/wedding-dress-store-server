@@ -1,5 +1,7 @@
 //models
+import ProductModel from "../models/Product.model.js";
 import Product from "../models/Product.model.js";
+import productService from "../services/product.service.js";
 
 let productController = {
   createProduct: async (req, res, next) => {
@@ -19,6 +21,44 @@ let productController = {
       return res.status(500).send({
         error:
           "Maalesef, ürün oluşturma başarısız oldu. Lütfen tekrar deneyiniz.",
+        errorReason: error,
+      });
+    }
+  },
+  receivePatch: async (req, res, next) => {
+    const { productId, historyId } = req.params;
+    console.log(req.params);
+    try {
+      await productService.receivingTheProduct(productId, historyId);
+      return res
+        .status(200)
+        .send({ message: "Ürün başarı ile oluşturuldu.", data: newProduct });
+    } catch (error) {
+      return res.status(500).send({
+        error:
+          "Maalesef, ürün oluşturma başarısız oldu. Lütfen tekrar deneyiniz.",
+        errorReason: error,
+      });
+    }
+  },
+  getById: async (req, res, next) => {
+    try {
+      const id = req.params.id;
+
+      const product = await ProductModel.findById(id).populate({
+        path: "history",
+        populate: {
+          path: "appointment",
+        },
+      });
+      return res.status(200).send({
+        message: "Product bilgileri başarı ile silindi.",
+        data: product,
+      });
+    } catch (error) {
+      return res.status(500).send({
+        error:
+          "Maalesef, ürün getirme başarısız oldu. Lütfen tekrar deneyiniz.",
         errorReason: error,
       });
     }
@@ -58,12 +98,10 @@ let productController = {
     }
   },
   productList: async (req, res, next) => {
-    const { productCategory, productName } = req.query;
+    const productCategory = req.query.productCategory;
 
     try {
-      const products = await Product.find({
-        $or: [{ productCategory }, { productName }],
-      });
+      const products = await Product.find({ productCategory });
       return res
         .status(200)
         .send({ message: "Ürünler başarı ile getirildi.", data: products });

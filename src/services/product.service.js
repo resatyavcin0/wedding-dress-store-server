@@ -24,11 +24,18 @@ const rentTheProduct = async ({
     console.log(error);
   }
 };
-const receivingTheProduct = async (product) => {
+const receivingTheProduct = async (product, historyId) => {
   try {
-    await ProductModel.findByIdAndUpdate(product, {
-      isReusable: true,
-    });
+    await ProductModel.findByIdAndUpdate(
+      product,
+      {
+        isReusable: true,
+        $set: { "history.$[e1].isActive": false },
+      },
+      {
+        arrayFilters: [{ "e1.appointment": historyId }],
+      }
+    );
   } catch (error) {
     console.log(error);
   }
@@ -45,7 +52,7 @@ const rentProductCancel = async (product, appointmentId) => {
     {
       arrayFilters: [
         {
-          "y.appointment": new ObjectId(appointmentId),
+          "y.appointment": appointmentId,
         },
       ],
     }
@@ -89,7 +96,7 @@ const sellProductCancel = async (product, appointmentId) => {
       {
         arrayFilters: [
           {
-            "y.appointment": new ObjectId(appointmentId),
+            "y.appointment": appointmentId,
           },
         ],
       }

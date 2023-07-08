@@ -50,7 +50,6 @@ let appointmentController = {
         letRealEventDate = moment(eventDate);
         reusableDate = moment(eventDate).add(2, "day");
       }
-
       session = await mongoose.startSession();
       session.startTransaction();
 
@@ -81,14 +80,14 @@ let appointmentController = {
         await productService.rentTheProduct({
           product,
           reusableDate,
-          appointmentId: new mongoose.Types.ObjectId(newAppointment._id),
+          appointmentId: newAppointment[0]._id,
           letRealEventDate,
           session,
         });
       } else {
         await productService.sellTheProduct({
           product,
-          appointmentId: new mongoose.Types.ObjectId(newAppointment._id),
+          appointmentId: newAppointment[0]._id,
           letRealEventDate,
           session,
         });
@@ -96,7 +95,7 @@ let appointmentController = {
 
       await CostumerModel.findByIdAndUpdate(costumer, {
         $push: {
-          appointments: new mongoose.Types.ObjectId(newAppointment._id),
+          appointments: newAppointment[0]._id,
         },
       }).session(session);
 
@@ -154,6 +153,19 @@ let appointmentController = {
   bringAppointmentList: async (req, res, next) => {
     try {
       const appoList = await AppointmentModel.find({});
+
+      return res.status(200).send({
+        message: "Randevu bilgileri başarı ile getirildi.",
+        data: appoList,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+  bringAppointment: async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      const appoList = await AppointmentModel.findById(id).populate("product");
 
       return res.status(200).send({
         message: "Randevu bilgileri başarı ile getirildi.",

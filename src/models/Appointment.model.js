@@ -30,11 +30,9 @@ const appointmentSchema = new Schema(
     },
     packageDepartureDate: {
       type: Date,
-      required: true,
     },
     packageArrivalDate: {
       type: Date,
-      required: true,
     },
     eventDate: {
       type: Date,
